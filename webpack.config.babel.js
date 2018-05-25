@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const srcRoot = path.resolve();
 
@@ -19,6 +20,11 @@ export default {
 			open: false,
 			server: { baseDir: ['dist'] },
 		}),
+		new CopyWebpackPlugin([
+			{ from: './src/assets/**/*', to: 'assets/icons/', flatten: true, },
+			{ from: './src/reset.css', flatten: true, },
+			{ from: './src/index.html', flatten: true, },
+		]),
 	],
 	module: {
 		rules: [
@@ -37,6 +43,11 @@ export default {
 					}
 				],
 			},
+			{
+				test: /\.(svg)$/,
+				loader: 'file-loader',
+				include: srcRoot,
+			}
 		],
 	}
 };
